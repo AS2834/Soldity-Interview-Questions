@@ -59,3 +59,22 @@ in this code:
    - Offers an added layer of security by checking for existing contracts before deployment.
 In summary, while CREATE is straightforward, CREATE2 provides predictable addresses. The latter is particularly useful when you need to know the contract address before deployment. 🚀
 
+### 6.What is the challenge of creating random numbers on the blockchain?
+The challenge of creating random numbers on the blockchain is to ensure that the generated random numbers are truly random. Since the blockchain is a public distributed ledger, anyone can view and verify transactions. This means that if the random number generation algorithm is not random enough, attackers might be able to predict the value of the random numbers by analyzing transactions, thereby compromising the system's security. To address this issue, some techniques have been proposed, such as using random number generators on the blockchain or employing multiple random number generators to produce random numbers, to ensure that the generated random numbers are truly random.
+
+### 7.Solidity implementation of a random number generator
+In this example, we have used the keccak256 hash function in Solidity to generate random numbers. We take the current timestamp, the sender's address, and a nonce value as inputs, then perform a hash operation on them to obtain a random number. The nonce value is an incrementing counter, used to ensure that a new random number is generated each time the random function is called. 
+Please note that this method is not completely random, as it still relies on the values of the input parameters. However, it can provide enough randomness to meet the needs of most applications.
+```
+pragma solidity ^0.8.0;
+
+contract RandomNumberGenerator {
+    uint256 private nonce = 0;
+
+    function random() public returns (uint256) {
+        uint256 randomNumber = uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender, nonce)));
+        nonce++;
+        return randomNumber;
+    }
+}
+```
